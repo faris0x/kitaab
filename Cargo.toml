@@ -1,0 +1,19 @@
+[package]
+name = "kitaab"
+version = "0.1.0"
+edition = "2024"
+description = "Read, listen to, and generate subtitles from the Noble Qur'an, in your terminal"
+license = "GPL-3.0-only"
+
+[dependencies]
+anyhow = "1"
+arabic_reshaper = "0.4.2"
+crossterm = "0.29.0"
+directories = "5"
+ratatui = "0.30.2"
+reqwest = { version = "0.13.4", features = ["json"] }
+rodio = "0.21"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1.53.1", features = ["rt-multi-thread", "macros", "sync", "time"] }
+unicode-bidi = "0.3"
