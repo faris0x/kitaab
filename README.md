@@ -13,6 +13,7 @@ Read, listen to, and generate subtitles from the Noble Qur'an, in your terminal.
 - Per-surah recitation audio (streaming download + playback) with Ayatul Kursi support
 - SRT subtitle generation (`sub` command)
 - Bookmark manager (`bookmarks`/`bm` command)
+- Settings screen for the colour theme and reading/subtitle options (`settings`/`st`), saved automatically
 - Surah list, main menu with fuzzy surah search
 
 ## Building
@@ -27,7 +28,7 @@ cargo build --release
 ## Usage
 
 Run `kitaab`, then type a surah number or name at the prompt, or one of:
-`list`/`ls`, `bookmarks`/`bm`, `sub`, `quit`/`q`. `Ctrl+C` quits.
+`list`/`ls`, `bookmarks`/`bm`, `sub`, `settings`/`st`, `quit`/`q`. `Ctrl+C` quits.
 
 ## License
 

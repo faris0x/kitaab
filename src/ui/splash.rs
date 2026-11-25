@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Faris Alfarhan
+// SPDX-License-Identifier: GPL-3.0-only
+
 use ratatui::layout::{Alignment, Constraint, Layout};
 use ratatui::style::{Color, Style};
 use ratatui::text::Line;

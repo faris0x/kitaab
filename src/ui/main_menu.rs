@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Faris Alfarhan
+// SPDX-License-Identifier: GPL-3.0-only
+
 use ratatui::layout::{Alignment, Constraint, Layout, Rect};
 use ratatui::style::{Color, Style};
 use ratatui::text::{Line, Span};
@@ -13,10 +16,10 @@ pub const COMMANDS: &[(&str, &str)] = &[
     ("list / ls", "Show all 114 surahs"),
     ("sub", "Generate subtitle (.srt) files"),
     ("bookmarks / bm", "Manage bookmarks"),
-    ("settings / st", "Theme, translations, audio, backup"),
-    ("audio / au", "Audio cache management"),
-    ("info / i", "Help and credits"),
-    ("readme / rd", "Show the app readme"),
+    ("settings / st", "Theme and reading options"),
+    ("audio / au", "Audio cache management (coming later)"),
+    ("info / i", "Help and credits (coming later)"),
+    ("readme / rd", "Show the app readme (coming later)"),
     ("quit / exit", "Exit kitaab"),
 ];
 

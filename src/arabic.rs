@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Faris Alfarhan
+// SPDX-License-Identifier: GPL-3.0-only
+
 use unicode_bidi::BidiInfo;
 
 pub fn fix_arabic_text(text: &str) -> String {

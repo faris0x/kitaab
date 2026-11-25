@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Faris Alfarhan
+// SPDX-License-Identifier: GPL-3.0-only
+
 use std::collections::HashMap;
 
 pub fn ratio(a: &str, b: &str) -> f64 {

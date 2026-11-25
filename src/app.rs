@@ -1,3 +1,6 @@
+// Copyright (c) 2026 Faris Alfarhan
+// SPDX-License-Identifier: GPL-3.0-only
+
 use std::collections::HashMap;
 use std::path::PathBuf;
 use std::time::Duration;
@@ -25,6 +28,7 @@ use crate::ui;
 use crate::ui::bookmarks::{self, BookmarksState};
 use crate::ui::main_menu::MainMenuState;
 use crate::ui::reader::{self, ReaderState};
+use crate::ui::settings::{self as settings_ui, SettingsState};
 use crate::ui::subtitles::{self, SubtitlePhase, SubtitlesState};
 use crate::ui::surah_list::{self, SurahListState};
 use crate::ui::splash;
@@ -36,6 +40,7 @@ pub enum Screen {
     Reader(Box<ReaderState>),
     Bookmarks(BookmarksState),
     Subtitles(SubtitlesState),
+    Settings(SettingsState),
 }
 
 enum BootstrapEvent {
@@ -114,6 +119,8 @@ enum ScreenAction {
     StopAudio,
     TogglePause,
     ShowBookmarks,
+    ShowSettings,
+    SettingsChanged,
     SaveBookmark { surah: u32, ayah: u32, note: String },
     AddBookmark(String),
     DeleteBookmark(usize),
@@ -385,6 +392,9 @@ impl App {
                 let config = self.settings.subtitle_config.clone();
                 subtitles::render(frame, state, data, &config, self.accent);
             }
+            Screen::Settings(state) => {
+                settings_ui::render(frame, state, &self.settings, self.accent);
+            }
         }
         if let Some(notice) = &self.notice {
             let area = centered_rect(60, 15, frame.area());
@@ -511,6 +521,11 @@ impl App {
                     }
                 }
             },
+            Screen::Settings(state) => match settings_ui::handle_key(state, &mut self.settings, key) {
+                settings_ui::SettingsAction::None => ScreenAction::None,
+                settings_ui::SettingsAction::Back => ScreenAction::BackToMainMenu,
+                settings_ui::SettingsAction::Changed => ScreenAction::SettingsChanged,
+            },
             Screen::Bootstrap => ScreenAction::None,
         };
         self.apply_action(action);
@@ -534,6 +549,13 @@ impl App {
             ScreenAction::StopAudio => self.audio.stop(),
             ScreenAction::TogglePause => self.audio.toggle_pause(),
             ScreenAction::ShowBookmarks => self.show_bookmarks(),
+            ScreenAction::ShowSettings => {
+                self.screen = Screen::Settings(SettingsState::default());
+            }
+            ScreenAction::SettingsChanged => {
+                self.accent = ui::theme_color(&self.settings.theme_color);
+                self.save_settings();
+            }
             ScreenAction::SaveBookmark { surah, ayah, note } => {
                 self.settings.add_bookmark(surah, ayah, note);
                 self.save_settings();
@@ -693,7 +715,8 @@ impl App {
             "list" | "ls" => ScreenAction::ShowSurahList,
             "bookmarks" | "bm" => ScreenAction::ShowBookmarks,
             "sub" => ScreenAction::ShowSubtitles,
-            "settings" | "st" | "audio" | "au" | "info" | "i" | "readme" | "rd" => {
+            "settings" | "st" => ScreenAction::ShowSettings,
+            "audio" | "au" | "info" | "i" | "readme" | "rd" => {
                 state.notice = Some("That feature arrives in a later build".into());
                 ScreenAction::None
             }
